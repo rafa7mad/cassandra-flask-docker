@@ -1,0 +1,24 @@
+# Imagen base con Java 11 (requerido por Cassandra)
+FROM openjdk:11-jre-slim
+
+# Versión de Cassandra
+ENV CASSANDRA_VERSION=4.1.8
+ENV CASSANDRA_HOME=/opt/cassandra
+ENV PATH=$CASSANDRA_HOME/bin:$PATH
+
+# Crear directorio de instalación
+RUN mkdir -p $CASSANDRA_HOME
+
+# Copiar el archivo .tar.gz al contenedor
+COPY data/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz /tmp/
+
+# Extraer el contenido y moverlo al directorio de Cassandra
+RUN tar -xvzf /tmp/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz -C /opt/ && \
+    mv /opt/apache-cassandra-${CASSANDRA_VERSION}/* $CASSANDRA_HOME && \
+    rm -rf /tmp/*
+
+# Exponer puertos utilizados por Cassandra
+EXPOSE 9042 7000 7001 7199 9160
+
+# Iniciar Cassandra como root (agregamos -R para evitar que se detenga)
+CMD ["cassandra", "-f", "-R"]

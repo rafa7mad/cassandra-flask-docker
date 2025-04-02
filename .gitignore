@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+data/
+venv/
+secure-connect-test-cassandra.zip
+test_cassandra-token.json
