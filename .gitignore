@@ -5,3 +5,4 @@ data/
 venv/
 secure-connect-test-cassandra.zip
 test_cassandra-token.json
+0 local/
